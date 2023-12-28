@@ -1,6 +1,6 @@
 <h1>LMS README.md</h1>
 <h2>Produktbeskrivning</h2>
-LMS (Learning Management System) som vi ska bygga har som främst uppgift och mål att enkelt tillgängliggöra kursmaterial och schema för elever. 
+<b>LMS</b> (Learning Management System) som vi ska bygga har som främst uppgift och mål att enkelt tillgängliggöra kursmaterial och schema för elever. 
 Det skall även fungera som en samlingsplats för inlämningsuppgifter. 
 För att detta skall vara möjligt behöver vi även smidig funktionalitet för lärare att enkelt kunna administrera dessa klasser, elever, scheman och dokument. 
 För om det inte är enkelt för läraren att använda verktyget, så kommer eleverna aldrig få chansen att använda det.<br><br>

@@ -9,7 +9,7 @@ namespace LMS.Server.Models.Domain
     public class ActivityType
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
-        public ICollection<Activity> Activities { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public ICollection<Activity> Activities { get; set; } = new List<Activity>();
     }
 }

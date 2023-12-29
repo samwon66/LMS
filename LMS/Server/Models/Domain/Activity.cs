@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LMS.Shared.Domain
+namespace LMS.Server.Models.Domain
 {
-    public class Module
+    public class Activity
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
-        public  DateTime EndDate { get; set; }
-        public  Guid CourseId { get; set; }
-        public Course Course { get; set;}
-        public ICollection<Activity> Activities { get; set; }
-       
+        public DateTime EndDate { get; set; }
+        public ActivityType ActivityType { get; set; }
+        public Guid ActivtityTypeId { get; set; }
+        public Guid ModuleId { get; set; }
+        public Module Module { get; set; }
 
     }
 }

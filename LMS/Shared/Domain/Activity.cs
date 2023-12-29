@@ -15,6 +15,8 @@ namespace LMS.Shared.Domain
         public DateTime EndDate { get; set; }
         public ActivityType ActivityType { get; set; }
         public Guid ActivtityTypeId { get; set; }
+        public Guid ModuleId { get; set; }
+        public Module Module { get; set; }
 
     }
 }

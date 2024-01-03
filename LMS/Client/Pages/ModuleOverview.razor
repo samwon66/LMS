@@ -1,0 +1,31 @@
+﻿@using System.Net.Http
+
+@using LMS.Shared.Dtos
+
+@page "/moduleoverview/{ModuleId:guid}"
+
+<h3>Module Overview</h3>
+
+@if (module != null)
+{
+    <ModuleInfo Module="module" />
+    <ModuleDescription Module="module" />
+    <ModuleActivities Module=" module"/>
+}
+else
+{
+    <p>Loading..</p>
+}
+
+@code {
+    [Parameter] 
+    public Guid ModuleId { get; set; }
+    private ModuleDTO module;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Anropa din ModuleController direkt för att hämta modulinformation
+        var httpClient = new HttpClient();
+        module = await httpClient.GetFromJsonAsync<ModuleDTO>($"https://localhost:7050/api/module/{ModuleId}");
+    }
+}

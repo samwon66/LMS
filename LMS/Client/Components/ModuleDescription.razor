@@ -1,0 +1,11 @@
+﻿@inherits ComponentBase
+
+<div>
+    <h4>Beskrivning</h4>
+    <p>@Module.Description</p>
+</div>
+
+@code {
+    [Parameter]
+    public ModuleDTO Module { get; set; }
+}

@@ -13,7 +13,7 @@ namespace LMS.Server.Models.Domain
         public string Description { get; set; } = string.Empty;
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public ActivityType ActivityType { get; set; }
+        public ActivityType ActivityType { get; set; } = new ActivityType();
         public Guid ActivtityTypeId { get; set; }
         public Guid ModuleId { get; set; }
         public Module Module { get; set; }

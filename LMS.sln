@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.Server", "LMS\Server\LMS.Server.csproj", "{ED3B2052-E496-464C-BCD7-4F5AB9E95AEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMS.Server", "LMS\Server\LMS.Server.csproj", "{ED3B2052-E496-464C-BCD7-4F5AB9E95AEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.Client", "LMS\Client\LMS.Client.csproj", "{54965F26-BCC4-41E5-9E69-2AA6095087F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMS.Client", "LMS\Client\LMS.Client.csproj", "{54965F26-BCC4-41E5-9E69-2AA6095087F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.Shared", "LMS\Shared\LMS.Shared.csproj", "{5CF75517-A2BF-458D-8654-B91F36267268}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMS.Shared", "LMS\Shared\LMS.Shared.csproj", "{5CF75517-A2BF-458D-8654-B91F36267268}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

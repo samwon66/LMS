@@ -1,0 +1,13 @@
+﻿@inherits ComponentBase
+
+<div>
+    <h3>@Module.Name</h3>
+   
+    <p>Startdatum: @Module.StartDate.ToShortDateString()</p>
+    <p>Slutdatum: @Module.EndDate.ToShortDateString()</p>
+</div>
+
+@code {
+    [Parameter]
+    public ModuleDTO Module { get; set; }
+}

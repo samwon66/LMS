@@ -136,12 +136,12 @@ namespace LMS.Server.Data
 
             {
 
-                context.courses.Add(course);
+                context.Courses.Add(course);
 
             }
             context.SaveChanges();
 
-            Course c = context.courses.FirstOrDefault();
+            Course c = context.Courses.FirstOrDefault();
             await AddAccountAsync(teacherEmail, "Anders", "Andersson", "Teacher", "P@55w.rd", c.Id, c);
             await AddAccountAsync(studentEmail, "Tony", "Olsson", "Student", "Pa55w.rd", c.Id, c);
         }

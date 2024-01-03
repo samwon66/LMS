@@ -1,0 +1,23 @@
+﻿@inherits ComponentBase
+
+<div>
+    <h4>Aktiviteter</h4>
+    @if (Module.Activities.Any())
+    {
+        <ul>
+            @foreach (var activity in Module.Activities)
+            {
+                <li>@activity.Name - @activity.StartDate.ToShortDateString()</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>Inga aktiviteter tillgängliga.</p>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public ModuleDTO Module { get; set; }
+}

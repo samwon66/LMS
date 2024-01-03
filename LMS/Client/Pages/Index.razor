@@ -6,4 +6,24 @@
 
 Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+
+<AuthorizeView Roles="Teacher">
+    <Authorized >
+        <h5>Hej Teacher: @context.User.Identity?.Name!</h5><br />
+        <h6>Du är inloggad som Teacher!</h6>
+    </Authorized>
+</AuthorizeView>
+
+
+<AuthorizeView Roles="Student">
+    <Authorized>
+        <h5>Hej Student: @context.User.Identity?.Name!</h5><br />
+        <h6>Du är inloggad som student!</h6>
+    </Authorized>
+</AuthorizeView>
+
+<AuthorizeView>
+    <NotAuthorized>
+        <h6>Du är inte inloggad!</h6>
+    </NotAuthorized>
+</AuthorizeView>

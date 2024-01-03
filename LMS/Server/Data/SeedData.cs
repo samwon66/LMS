@@ -43,7 +43,7 @@ namespace LMS.Server.Data
                         {
                             Id = Guid.NewGuid(),
                             Name = "C#",
-                            Description = "Description for C¤",
+                            Description = "Description for C#",
                             StartDate = DateTime.Now,
                             EndDate = DateTime.Now.AddDays(30),
                             Activities = new List<Activity>

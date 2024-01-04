@@ -1,5 +1,4 @@
 ﻿using Duende.IdentityServer.EntityFramework.Options;
-using LMS.Server.Models;
 using LMS.Server.Models.Domain;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +12,8 @@ namespace LMS.Server.Data
         public DbSet<Module> Modules { get; set; }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<ActivityType> ActivityTypes { get; set; }
+        public object Students { get; internal set; }
+
         public ApplicationDbContext(
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)

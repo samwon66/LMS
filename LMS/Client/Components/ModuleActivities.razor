@@ -1,21 +1,22 @@
-﻿@inherits ComponentBase
+﻿@using LMS.Shared.DTOs
 
-<div>
-    <h4>Aktiviteter</h4>
-    @if (Module.Activities.Any())
-    {
-        <ul>
-            @foreach (var activity in Module.Activities)
-            {
-                <li>@activity.Name - @activity.StartDate.ToShortDateString()</li>
-            }
-        </ul>
-    }
-    else
-    {
-        <p>Inga aktiviteter tillgängliga.</p>
-    }
-</div>
+@if (Module.Activities.Any())
+{
+    <ul>
+        @foreach (var activity in Module.Activities)
+        {
+            <li>
+                <a href="@($"activityoverview/{activity.Id}")">
+                    @activity.Name - @activity.StartDate.ToShortDateString()
+                </a>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No activities available.</p>
+}
 
 @code {
     [Parameter]

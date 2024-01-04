@@ -1,30 +1,29 @@
-﻿@page "/moduleoverview/{ModuleId:guid}"
+﻿@page "/activities/{ModuleId:guid}"
 @using System.Net.Http
 @using LMS.Shared.Dtos
 
-
-
-<h3>Module Overview</h3>
+<h3>Activities</h3>
 
 @if (module != null)
 {
+    <h4>Module Information</h4>
     <ModuleInfo Module="module" />
-    <ModuleDescription Module="module" />
-    <ModuleActivities Module=" module"/>
+
+    <h4>Module Activities</h4>
+    <ModuleActivities Module="module" />
 }
 else
 {
-    <p>Loading..</p>
+    <p>Loading...</p>
 }
 
 @code {
-    [Parameter] 
+    [Parameter]
     public Guid ModuleId { get; set; }
     private ModuleDTO module;
 
     protected override async Task OnInitializedAsync()
     {
-        // Anropa din ModuleController direkt för att hämta modulinformation
         var httpClient = new HttpClient();
         module = await httpClient.GetFromJsonAsync<ModuleDTO>($"https://localhost:7050/api/module/{ModuleId}");
     }

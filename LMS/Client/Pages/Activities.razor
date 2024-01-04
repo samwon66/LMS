@@ -1,0 +1,30 @@
+﻿@page "/activities/{ModuleId:guid}"
+@using System.Net.Http
+@using LMS.Shared.Dtos
+
+<h3>Activities</h3>
+
+@if (module != null)
+{
+    <h4>Module Information</h4>
+    <ModuleInfo Module="module" />
+
+    <h4>Module Activities</h4>
+    <ModuleActivities Module="module" />
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    [Parameter]
+    public Guid ModuleId { get; set; }
+    private ModuleDTO module;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var httpClient = new HttpClient();
+        module = await httpClient.GetFromJsonAsync<ModuleDTO>($"https://localhost:7050/api/module/{ModuleId}");
+    }
+}

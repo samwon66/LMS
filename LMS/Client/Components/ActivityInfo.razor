@@ -1,0 +1,23 @@
+﻿@using LMS.Shared.DTOs
+
+
+@if (Activity != null)
+{
+    <div>
+        <h3>@Activity.Name</h3>
+        <p><strong>Description:</strong> @Activity.Description</p>
+        <p><strong>Start Date:</strong> @Activity.StartDate.ToShortDateString()</p>
+        <p><strong>End Date:</strong> @Activity.EndDate.ToShortDateString()</p>
+        <p><strong>Activity Type:</strong> @Activity.ActivityType.Name</p>
+        <p><strong>Module:</strong> @Activity.ModuleId</p>
+    </div>
+}
+else
+{
+    <p>No activity information available.</p>
+}
+
+@code {
+    [Parameter]
+    public ActivityDTO Activity { get; set; }
+}

@@ -1,0 +1,28 @@
+﻿
+@page "/activityoverview/{ActivityId:guid}"
+@using System.Net.Http
+@using LMS.Shared.DTOs
+
+<h2>Activity Overview</h2>
+
+@if (activity != null)
+{
+    <ActivityInfo Activity="activity" />
+}
+else
+{
+    <p>Loading..</p>
+}
+
+@code {
+    [Parameter]
+    public Guid ActivityId { get; set; }
+    private ActivityDTO activity;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Call your ActivityController directly to fetch activity information
+        var httpClient = new HttpClient();
+        activity = await httpClient.GetFromJsonAsync<ActivityDTO>($"https://localhost:7050/api/activity/{ActivityId}");
+    }
+}

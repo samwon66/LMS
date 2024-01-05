@@ -1,6 +1,7 @@
 using LMS.Server.Data;
 using LMS.Server.Extensions;
 using LMS.Server.Models.Domain;
+//sing LMS.Server.Pages.Services;//
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -28,6 +29,7 @@ builder.Services.AddIdentityServer()
 
 //builder.Services.AddIdentityServer()
 //    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+
 
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();

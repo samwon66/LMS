@@ -1,0 +1,17 @@
+﻿@page "/studentoverview/{User.id: string}"
+
+@code {
+    [Parameter]
+    public ApplicationUserDTO User { get; set; }
+}
+
+@if (User != null)
+{
+    <h2>Overview</h2>
+    <p>Name: @User.FullName</p>
+    <p>Email: @User.Email</p>
+}
+else
+{
+    <p>User not found.</p>
+}

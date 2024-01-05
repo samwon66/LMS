@@ -1,0 +1,45 @@
+﻿@using System.Net.Http
+
+@using LMS.Shared.Dtos
+@using Microsoft.AspNetCore.Authorization
+
+@page "/courseOverview/{ModuleId:guid}"
+ 
+
+<h2>Courses</h2>
+
+<p>
+    <a href="/Components/create">Create New</a>
+</p>
+
+
+    <table class="table table-sm table-striped">
+        <thead >
+            <tr>
+                <th scope="col">Course ID </th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Start Date</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+       @*      @foreach (var course in Course)
+            {
+            <tr>
+                <td> scope="row">@course.Id</td>
+                <td>@course.Name</td>
+                <td>@course.Description</td>
+                <td>@course.</td>
+                
+
+                <td scope="row"><a href="@($"deviceview/{course.courseId}")" class="btn btn-outline-primary">View</a></td>
+                <td scope="row"><a href="@($"deviceupdate/{course.courseId}")" class="btn btn-outline-primary">Update</a></td>
+                <td scope="row"><a href="@($"devicedelete/{course.courseId}")" class="btn btn-outline-primary">Delete</a></td>
+                
+            </tr> *@
+            }
+        </tbody>
+    </table>
+}

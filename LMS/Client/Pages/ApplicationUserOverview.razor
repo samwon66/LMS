@@ -2,8 +2,6 @@
 
 @using LMS.Shared.Dtos
 @using Microsoft.AspNetCore.Authorization
-
-
 @page "/application-user-overview/{UserId}"
 @inject HttpClient Http
 
@@ -53,6 +51,9 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        applicationUser = await Http.GetFromJsonAsync<ApplicationUserDTO>($"api/ApplicationUser/{UserId}");
+        if (!string.IsNullOrEmpty(UserId))
+        {
+            applicationUser = await Http.GetFromJsonAsync<ApplicationUserDTO>($"https://localhost:7050/api/ApplicationUser/{UserId}");
+        }
     }
 }

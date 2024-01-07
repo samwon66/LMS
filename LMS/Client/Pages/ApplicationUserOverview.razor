@@ -1,4 +1,10 @@
-﻿@page "/application-user-overview/{UserId}"
+﻿@using System.Net.Http
+
+@using LMS.Shared.Dtos
+@using Microsoft.AspNetCore.Authorization
+
+
+@page "/application-user-overview/{UserId}"
 @inject HttpClient Http
 
 @if (applicationUser == null)
@@ -7,21 +13,36 @@
 }
 else
 {
-    <div>
-        <h2>Course: @applicationUser.Course.Name</h2>
-        <p>Course Description: @applicationUser.Course.Description</p>
-        <p>Start Date: @applicationUser.Course.StartDate.ToShortDateString()</p>
-        <h3>Modules:</h3>
-        @foreach (var module in applicationUser.Modules)
-        {
-            <p>@module.Name - @module.Description</p>
-        }
-        <h3>Course Participants:</h3>
+    <h2>User: @applicationUser.FullName</h2>
+    <p>Email: @applicationUser.Email</p>
+    <h3>Course: @applicationUser.Course.Name</h3>
+    <p>Description: @applicationUser.Course.Description</p>
+
+    <h4>Course Participants:</h4>
+    <ul>
         @foreach (var participant in applicationUser.CourseParticipants)
         {
-            <p>@participant.FullName - @participant.Email</p>
+            <li>@participant.FullName - @participant.Email</li>
         }
-    </div>
+    </ul>
+
+    <h4>Modules:</h4>
+    @foreach (var module in applicationUser.Modules)
+    {
+        <div>
+            <h5>@module.Name</h5>
+            <p>Description: @module.Description</p>
+            <p>Start: @module.StartDate.ToShortDateString() - End: @module.EndDate.ToShortDateString()</p>
+
+            <h6>Activities:</h6>
+            <ul>
+                @foreach (var activity in module.Activities)
+                {
+                    <li>@activity.Name - @activity.Description</li>
+                }
+            </ul>
+        </div>
+    }
 }
 
 @code {
@@ -33,34 +54,5 @@ else
     protected override async Task OnInitializedAsync()
     {
         applicationUser = await Http.GetFromJsonAsync<ApplicationUserDTO>($"api/ApplicationUser/{UserId}");
-    }
-
-    public class ApplicationUserDTO
-    {
-        public Guid Id { get; set; }
-        public string FullName { get; set; }
-        public string Email { get; set; }
-        public CourseDTO Course { get; set; }
-        public List<ApplicationUserDTO> CourseParticipants { get; set; }
-        public List<ModuleDTO> Modules { get; set; }
-    }
-
-    public class CourseDTO
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public DateTime StartDate { get; set; }
-        // Other properties as needed
-    }
-
-    public class ModuleDTO
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        // Other properties as needed
     }
 }

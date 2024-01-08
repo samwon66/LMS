@@ -1,40 +1,31 @@
-﻿using LMS.Server.Models.Domain;
-using LMS.Server.Models;
+﻿using LMS.Server.Models;
+using LMS.Server.Models.Domain;
 using Microsoft.AspNetCore.Identity;
 
- 
+
 namespace LMS.Server.Data
 
 {
-
-
     public class SeedData
 
     {
-
         private static ApplicationDbContext context;
 
         private static RoleManager<IdentityRole> roleManager = default!;
 
         private static UserManager<ApplicationUser> userManager = default!;
 
-
         public static async Task InitAsync(ApplicationDbContext _context, IServiceProvider services)
 
         {
-
             context = _context;
-
             if (context.Roles.Any()) return;
 
             roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
             userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
             var roleNames = new[] { "Student", "Teacher" };
-
             var studentEmail = "student@student.com";
-
             var teacherEmail = "teacher@teacher.com";
 
             await AddRolesAsync(roleNames);
@@ -52,7 +43,7 @@ namespace LMS.Server.Data
                         {
                             Id = Guid.NewGuid(),
                             Name = "C#",
-                            Description = "Description for C¤",
+                            Description = "Description for C#",
                             StartDate = DateTime.Now,
                             EndDate = DateTime.Now.AddDays(30),
                             Activities = new List<Activity>
@@ -114,7 +105,7 @@ namespace LMS.Server.Data
                                 {
                                     Id = Guid.NewGuid(),
                                     Name = "JavaScript",
-                                    Description = "Description for JavaSCript",
+                                    Description = "Description for JavaScript",
                                     StartDate = DateTime.Now,
                                     EndDate = DateTime.Now.AddDays(7),
                                     ActivityType = new ActivityType
@@ -128,12 +119,11 @@ namespace LMS.Server.Data
                     }
                 }
                 // Add more courses as needed
-            } 
+            }
             };
 
 
             foreach (var course in courses)
-
             {
 
                 context.Courses.Add(course);
@@ -147,69 +137,45 @@ namespace LMS.Server.Data
         }
 
         private static async Task AddRolesAsync(string[] roleNames)
-
         {
-
             foreach (var roleName in roleNames)
-
             {
-
                 if (!await roleManager.RoleExistsAsync(roleName))
-
                 {
+                    var result = await roleManager.CreateAsync(new IdentityRole(roleName));
 
-                    await roleManager.CreateAsync(new IdentityRole(roleName));
-
+                    if(!result.Succeeded) throw new Exception(string.Join( "\n", result.Errors));
                 }
-
             }
-
         }
 
         private static async Task AddAccountAsync(string email, string fName, string lName, string roleName, string password, Guid cId, Course course)
-
         {
-
+            var found = await userManager.FindByEmailAsync(email);
+            if (found != null) return;
+            
             var user = new ApplicationUser
-
             {
-
                 UserName = email,
-
                 Email = email,
-
                 FirstName = fName,
-
                 LastName = lName,
-
                 CourseId = cId, // Assuming CourseId is a property in ApplicationUser
                 EmailConfirmed = true
-
             };
 
             var result = await userManager.CreateAsync(user, password);
-
             if (result.Succeeded)
-
             {
-
                 await userManager.AddToRoleAsync(user, roleName);
-
             }
-
             else
-
             {
-
                 throw new Exception($"Failed to create user. Errors: {string.Join(", ", result.Errors)}");
-
             }
 
         }
-
     }
-
-
 }
 
 

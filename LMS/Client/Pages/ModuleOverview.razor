@@ -1,8 +1,10 @@
-﻿@page "/moduleoverview/{ModuleId:guid}"
-@using System.Net.Http
+﻿@using System.Net.Http
+
 @using LMS.Shared.Dtos
+@using Microsoft.AspNetCore.Authorization
 
-
+@page "/moduleoverview/{ModuleId:guid}"
+@attribute [Authorize(Roles = "Teacher, Student")]
 
 <h3>Module Overview</h3>
 

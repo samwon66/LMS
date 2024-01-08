@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using LMS.Shared.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Server.Controllers
@@ -26,7 +25,7 @@ namespace LMS.Server.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TeacherDTO>> GetUser(string id)
+        public async Task<ActionResult<UserDTO>> GetUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
 
@@ -35,7 +34,7 @@ namespace LMS.Server.Controllers
                 return NotFound();
             }
 
-            var userDTO = new TeacherDTO
+            var userDTO = new UserDTO
             {
                 Id = user.Id,
                 UserName = user.UserName,
@@ -44,6 +43,17 @@ namespace LMS.Server.Controllers
                 FullName = user.FullName,
                 CourseId = user.CourseId
             };
+
+            // Check if the user is a teacher
+            userDTO.IsTeacher = await user.IsTeacherAsync(_userManager);
+
+            // Check if the user is a student
+            userDTO.IsStudent = await user.IsStudentAsync(_userManager);
+
+            // Set the course URL based on user role
+            userDTO.CourseUrl = userDTO.IsTeacher
+                ? $"/course/overview/{user.CourseId}"  // Replace with the actual URL for teacher course overview
+                : $"/course/details/{user.CourseId}";   // Replace with the actual URL for student course details
 
             return Ok(userDTO);
         }

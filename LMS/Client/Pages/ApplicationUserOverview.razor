@@ -3,7 +3,7 @@
 @using System.Text.Json
 @using LMS.Shared.Dtos
 @using Microsoft.AspNetCore.Authorization
-@page "/studentoverview}"
+@page "/studentoverview/{UserId}"
 @inject HttpClient Http
 
 @if (applicationUser == null)

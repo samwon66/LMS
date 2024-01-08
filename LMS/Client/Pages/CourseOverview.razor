@@ -1,0 +1,58 @@
+﻿@page "/courseOverview/{CourseId:guid}"
+
+@using LMS.Shared.Dtos
+@using System.Net.Http.Json
+@inherits OwningComponentBase
+@using System.Text.Json
+
+<h3>Course Overview</h3>
+@if (course != null)
+{
+    <p><strong>Course Information:</strong></p>
+    <p><strong>Course ID:</strong> @course.Id</p>
+    <p><strong>Name:</strong> @course.Name</p>
+    <p><strong>Description:</strong> @course.Description</p>
+    <p><strong>Start Date:</strong> @course.StartDate</p>
+
+    <p><strong>Participants:</strong></p>
+    @foreach (var participant in course.Participants)
+    {
+        <p>@participant.UserName</p>
+    }
+
+    @if (course.HeadTeacher != null)
+    {
+        <p><strong>Head Teacher:</strong> @course.HeadTeacher.FullName</p>
+    }
+}
+else
+{
+    <p><strong>Error:</strong> An unexpected error occurred.</p>
+}
+
+@code {
+    [Parameter]
+    public Guid CourseId { get; set; }
+    private CourseDTO course;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync($"https://localhost:7050/api/course/{CourseId}");
+
+            var content = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"API Response: {content}");
+
+            response.EnsureSuccessStatusCode();
+
+            course = JsonSerializer.Deserialize<CourseDTO>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching course data: {ex}");
+            course = null;
+        }
+    }
+}

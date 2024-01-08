@@ -48,12 +48,8 @@ else
     public string UserId { get; set; }
 
     private ApplicationUserDTO applicationUser;
-
     protected override async Task OnInitializedAsync()
     {
-        if (!string.IsNullOrEmpty(UserId))
-        {
-            applicationUser = await Http.GetFromJsonAsync<ApplicationUserDTO>($"https://localhost:7050/api/ApplicationUser/{UserId}");
-        }
+        applicationUser = await Http.GetFromJsonAsync<ApplicationUserDTO>($"https://localhost:7050/api/ApplicationUser/{UserId}");
     }
 }

@@ -1,0 +1,34 @@
+﻿@inherits ComponentBase
+@using System.Net.Http
+@using LMS.Shared.Dtos
+
+@if (course != null)
+{
+    <p><strong>Modules:</strong></p>
+    <ul>
+        @foreach (var module in course.Modules)
+        {
+            <li>
+                <a href="@($"moduleoverview/{module.Id}")">
+                @module.Name - @module.StartDate.ToShortDateString()
+                </a>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    [Parameter]
+    public Guid CourseId { get; set; }
+    private CourseDTO course;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var httpClient = new HttpClient();
+        course = await httpClient.GetFromJsonAsync<CourseDTO>($"https://localhost:7050/api/course/{CourseId}");
+    }
+}

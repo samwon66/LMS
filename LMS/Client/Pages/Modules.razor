@@ -1,0 +1,30 @@
+﻿@page "/modules/{CourseId:guid}"
+@using System.Net.Http
+@using LMS.Shared.Dtos
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize(Roles = "Teacher, Student")]
+<h3>Modules in @course.Name</h3>
+
+@if (course != null)
+{
+
+    <CourseInfo CourseId="CourseId"/>
+    <CourseModules CourseId="CourseId" />
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    [Parameter]
+    public Guid CourseId { get; set; }
+    private CourseDTO course;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var httpClient = new HttpClient();
+        course = await httpClient.GetFromJsonAsync<CourseDTO>($"https://localhost:7050/api/course/{CourseId}");
+    }
+}

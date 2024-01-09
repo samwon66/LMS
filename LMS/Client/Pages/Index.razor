@@ -2,22 +2,57 @@
 @using System.Net.Http
 @using System.Net.Http.Json
 @using System.Text.Json
+@using LMS.Shared.Dtos
+@using Microsoft.AspNetCore.Authorization
 
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject HttpClient Http
+
+@code {
+    private ApplicationUserDTO currentUser;
+    string userId = String.Empty;
+    string test = String.Empty;
+
+    protected async Task OnInitalizedAsync()
+    {
+        test = "skjdh";
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        userId = user.FindFirst(c => c.Type == "sub")?.Value;
+        if (user.Identity.IsAuthenticated)
+        {
+
+            // currentUser = await Http.GetFromJsonAsync<ApplicationUserDTO>($"https://localhost:7050/api/ApplicationUser/{userId}");
+        }
+
+    }
+
+
+    // private ApplicationUserDTO currentUser;
+    // public string UserId { get; set; }
+
+    // protected async Task OnIntializedAsync()
+    // {
+    //     currentUser = await Http.GetFromJsonAsync<ApplicationUserDTO>($"https://localhost:7050/api/ApplicationUser/{UserId}");
+    // }
+}
 
 <PageTitle>Index</PageTitle>
 
 <h1>Welcome to the Application</h1>
 
-<ApplicationOverview id="12345" />
+@* <ApplicationOverview id="12345" /> *@
 <h1>LMS</h1>
-
+<p>@test</p>
 Welcome to LMS.
-
 
 <AuthorizeView Roles="Teacher">
     <Authorized >
         <h5>Hi Teacher: @context.User.Identity?.Name!</h5><br />
+        @* <p>@currentUser.FullName</p> *@
         <h6>You are signed in as Teacher!</h6>
+        <p>@userId</p>
+
     </Authorized>
 </AuthorizeView>
 
@@ -25,6 +60,7 @@ Welcome to LMS.
 <AuthorizeView Roles="Student">
     <Authorized>
         <h5>Hi Student: @context.User.Identity?.Name!</h5><br />
+        
         <h6>You are signed in as student!</h6>
     </Authorized>
 </AuthorizeView>
@@ -36,29 +72,3 @@ Welcome to LMS.
 </AuthorizeView>
 
 
-@code {
-    private UserDTO user;
-    public string UserId { get; set; }
-
-    protected async Task OnIntializedAsync()
-    {
-        try
-        {
-            if (Guid.TryParse(UserId, out Guid userIdGuid))
-            {
-                var httpClient = new HttpClient();
-                user = await httpClient.GetFromJsonAsync<UserDTO>($"https://localhost:7050/api/user/{userIdGuid}");
-            }
-            else
-            {
-                Console.WriteLine($"Error: Invalid User ID specified in the URL - {UserId}");
-                user = null;
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-            user = null;
-        }
-    }
-}

@@ -1,0 +1,34 @@
+﻿@inject AuthenticationStateProvider Provider
+@page "/test"
+
+<h3>Test</h3>
+<p>@test</p>
+
+@code {
+    private ApplicationUserDTO currentUser;
+    string userId = String.Empty;
+    public string test = String.Empty;
+
+    protected async Task OnInitalizedAsync()
+    {
+        test = "skjdh";
+        var authState = await Provider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        userId = user.FindFirst(c => c.Type == "sub")?.Value;
+        if (user.Identity.IsAuthenticated)
+        {
+
+            // currentUser = await Http.GetFromJsonAsync<ApplicationUserDTO>($"https://localhost:7050/api/ApplicationUser/{userId}");
+        }
+
+    }
+
+
+    // private ApplicationUserDTO currentUser;
+    // public string UserId { get; set; }
+
+    // protected async Task OnIntializedAsync()
+    // {
+    //     currentUser = await Http.GetFromJsonAsync<ApplicationUserDTO>($"https://localhost:7050/api/ApplicationUser/{UserId}");
+    // }
+}

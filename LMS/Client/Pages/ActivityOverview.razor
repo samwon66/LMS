@@ -1,10 +1,12 @@
-﻿
-@page "/activityoverview/{ActivityId:guid}"
+﻿@page "/activityoverview/{ActivityId:guid}"
 @using System.Net.Http
 @using LMS.Shared.DTOs
+@using Microsoft.AspNetCore.Authorization
 
-<h2>Activity Overview</h2>
 
+@attribute [Authorize(Roles = "Teacher, Student")]
+
+<h3>Overview of @activity.Name</h3>
 @if (activity != null)
 {
     <ActivityInfo Activity="activity" />
@@ -18,6 +20,7 @@ else
     [Parameter]
     public Guid ActivityId { get; set; }
     private ActivityDTO activity;
+
 
     protected override async Task OnInitializedAsync()
     {

@@ -4,8 +4,11 @@
 @using System.Net.Http.Json
 @inherits OwningComponentBase
 @using System.Text.Json
+@using Microsoft.AspNetCore.Authorization
 
-<h3>Course Overview</h3>
+@attribute [Authorize(Roles = "Teacher, Student")]
+
+<h3>Overview of @course.Name</h3>
 @if (course != null)
 {
     <p><strong>Course Information:</strong></p>

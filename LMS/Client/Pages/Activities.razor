@@ -1,15 +1,14 @@
 ﻿@page "/activities/{ModuleId:guid}"
 @using System.Net.Http
 @using LMS.Shared.Dtos
+@using Microsoft.AspNetCore.Authorization
 
-<h3>Activities</h3>
+@attribute [Authorize(Roles = "Teacher, Student")]
+
+<h3>Activities in @module.Name</h3>
 
 @if (module != null)
 {
-    <h4>Module Information</h4>
-    <ModuleInfo Module="module" />
-
-    <h4>Module Activities</h4>
     <ModuleActivities Module="module" />
 }
 else

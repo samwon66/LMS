@@ -4,12 +4,12 @@
 @if (Activity != null)
 {
     <div>
-        <h3>@Activity.Name</h3>
+        <h2>@Activity.Name</h2>
         <p><strong>Description:</strong> @Activity.Description</p>
-        <p><strong>Start Date:</strong> @Activity.StartDate.ToShortDateString()</p>
-        <p><strong>End Date:</strong> @Activity.EndDate.ToShortDateString()</p>
-        <p><strong>Activity Type:</strong> @Activity.ActivityType.Name</p>
-        <p><strong>Module:</strong> @Activity.ModuleId</p>
+        <p><strong>Start date:</strong> @Activity.StartDate.ToShortDateString()</p>
+        <p><strong>End date:</strong> @Activity.EndDate.ToShortDateString()</p>
+        <p><strong>Activity type:</strong> @Activity.ActivityType.Name</p>
+        <p><strong>Module id:</strong> @Activity.ModuleId</p>
     </div>
 }
 else

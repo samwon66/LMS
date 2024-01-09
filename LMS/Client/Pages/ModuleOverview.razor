@@ -27,7 +27,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        // Anropa din ModuleController direkt för att hämta modulinformation
+       
         var httpClient = new HttpClient();
         module = await httpClient.GetFromJsonAsync<ModuleDTO>($"https://localhost:7050/api/module/{ModuleId}");
     }

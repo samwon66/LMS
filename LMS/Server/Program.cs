@@ -18,19 +18,32 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddIdentityServer()
-    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(
-    options =>
-    {
-        options.IdentityResources["openid"].UserClaims.Add("role");
-        options.ApiResources.Single().UserClaims.Add("role");
-    });
+//builder.Services.AddIdentityServer()
+//    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(
+//    options =>
+//    {
+//        options.IdentityResources["openid"].UserClaims.Add("role");
+//        options.ApiResources.Single().UserClaims.Add("role");
+//    });
 
 //builder.Services.AddIdentityServer()
 //    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
-builder.Services.AddAuthentication()
-    .AddIdentityServerJwt();
+builder.Services.AddIdentityServer()
+    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(
+
+        options => {
+
+            options.IdentityResources["openid"].UserClaims.Add("role");
+
+            if (options.ApiResources.Any())
+            {
+                options.ApiResources.Single().UserClaims.Add("role");
+            }
+        });
+
+//builder.Services.AddAuthentication()
+//    .AddIdentityServerJwt();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

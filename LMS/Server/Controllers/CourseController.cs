@@ -2,6 +2,7 @@
 using LMS.Server.Models.Domain;
 using LMS.Server.Models.DTOs;
 using LMS.Shared.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,6 +13,7 @@ namespace LMS.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CourseController : ControllerBase
     {
         private readonly ApplicationDbContext _dbContext;
@@ -63,6 +65,7 @@ namespace LMS.Server.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Teacher")]
         public IActionResult PostCourse([FromBody] CourseDTO courseDTO)
         {
             // Map CourseDTO to Course entityf
@@ -78,6 +81,7 @@ namespace LMS.Server.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Teacher")]
         public IActionResult PutCourse(Guid id, [FromBody] CourseDTO courseDTO)
         {
             var course = _dbContext.Courses.Find(id);
@@ -96,6 +100,7 @@ namespace LMS.Server.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Teacher")]
         public IActionResult DeleteCourse(Guid id)
         {
             var course = _dbContext.Courses.Find(id);

@@ -17,6 +17,8 @@
                 <th>Description</th>
                 <th>Start Date</th>
                 <th>End Date</th>
+                <th>Activity Type</th>
+                <th>Module Id</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -28,6 +30,8 @@
                     <td>@activity.Description</td>
                     <td>@activity.StartDate.ToShortDateString()</td>
                     <td>@activity.EndDate.ToShortDateString()</td>
+                    <td>@activity.ActivityType.Name</td>
+                    <td>@module.Id</td>
                     <td>
                         <a href="@($"activityoverview/{activity.Id}")">View Details</a>
                     </td>

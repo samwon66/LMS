@@ -1,4 +1,4 @@
-﻿@page "/moduleslist/{CourseId:guid}"
+﻿@page "/activitieslist/{ModuleId:guid}"
 @using System.Net.Http
 @using LMS.Shared.Dtos
 @using Microsoft.AspNetCore.Authorization
@@ -6,9 +6,9 @@
 
 @attribute [Authorize(Roles = "Teacher, Student")]
 
-<h3>Module List for @course.Name</h3>
+<h3>Activities List for @module.Name</h3>
 
-@if (course != null)
+@if (module != null)
 {
     <table class="table">
         <thead>
@@ -21,15 +21,15 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var module in course.Modules)
+            @foreach (var activity in module.Activities)
             {
                 <tr>
-                    <td>@module.Name</td>
-                    <td>@module.Description</td>
-                    <td>@module.StartDate.ToShortDateString()</td>
-                    <td>@module.EndDate.ToShortDateString()</td>
+                    <td>@activity.Name</td>
+                    <td>@activity.Description</td>
+                    <td>@activity.StartDate.ToShortDateString()</td>
+                    <td>@activity.EndDate.ToShortDateString()</td>
                     <td>
-                        <a href="@($"moduleoverview/{module.Id}")">View Details</a>
+                        <a href="@($"activityoverview/{activity.Id}")">View Details</a>
                     </td>
                 </tr>
             }
@@ -43,14 +43,13 @@ else
 
 @code {
     [Parameter]
-    public Guid CourseId { get; set; }
-  
-    private CourseDTO course;
+    public Guid ModuleId { get; set; }
+    private ModuleDTO module;
 
     protected override async Task OnInitializedAsync()
     {
         var httpClient = new HttpClient();
-        course = await httpClient.GetFromJsonAsync<CourseDTO>($"https://localhost:7050/api/course/{CourseId}");
-
+        module = await httpClient.GetFromJsonAsync<ModuleDTO>($"https://localhost:7050/api/module/{ModuleId}");
     }
 }
+

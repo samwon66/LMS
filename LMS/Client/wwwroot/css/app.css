@@ -99,20 +99,3 @@ a, .btn-link {
     .loading-progress-text:after {
         content: var(--blazor-load-percentage-text, "Loading");
     }
-
-:root {
-    --primary: #512bd4;
-    --secondary: #9780e5;
-    --light: #d9d9d9;
-    --info: rgba(59,130,246,.5);
-}
-.card {
-    background-color: var(--primary);
-    border-color: var(--primary);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
-
-.list-group-item {
-    margin-bottom: 0.5rem;
-    border-width: 2px;
-}

@@ -1,5 +1,14 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using LMS.Server.Models.Domain
+@using Microsoft.AspNetCore.Identity
 @using LMS.Server.Models
+@using System.Collections.Generic;
+// The following declaration generates CS0246.
+using myAliasName = List<int>
+    ;
+
+    // To avoid the error, fully qualify List.
+    using myAliasName2 = System.Collections.Generic.List<int>
+        ;
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

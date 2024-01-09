@@ -1,6 +1,7 @@
 using LMS.Server.Data;
 using LMS.Server.Extensions;
-using LMS.Server.Models;
+using LMS.Server.Models.Domain;
+//sing LMS.Server.Pages.Services;//
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;

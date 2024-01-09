@@ -1,9 +1,8 @@
-﻿using LMS.Server.Models.Domain;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading.Tasks;
 
-namespace LMS.Server.Models
+namespace LMS.Server.Models.Domain
 {
     public class ApplicationUser : IdentityUser
     {

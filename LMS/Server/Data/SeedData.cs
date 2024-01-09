@@ -1,5 +1,4 @@
-﻿using LMS.Server.Models;
-using LMS.Server.Models.Domain;
+﻿using LMS.Server.Models.Domain;
 using Microsoft.AspNetCore.Identity;
 
 

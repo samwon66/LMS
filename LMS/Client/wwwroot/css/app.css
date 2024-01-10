@@ -7,8 +7,10 @@
     --info-color: rgba(59,130,246,.5);
 }
 html, body {
-    
-    background-color: var(--light-color);
+    background-image: url('../lms.png.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -25,8 +27,6 @@ html, body {
 .list-group-item {
     background-color: var(--info-color);
     color: white;
-}
-   
 }
 
 h1:focus {

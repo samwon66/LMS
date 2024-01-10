@@ -12,11 +12,13 @@
 }
 else
 {
-    <div class="card custom-card custom-shadow mb-3">
-        <div class="card-header custom-card-header">User Information</div>
-        <div class="card-body custom-card-body">
+    <div class="card mb-3">
+        <div class="card-header">User Information</div>
+        <div class="card-body">
             <h5 class="card-title">@applicationUser.FullName</h5>
             <p class="card-text">Email: @applicationUser.Email</p>
+            <p class="card-text">Course: @applicationUser.Course.Name</p>
+            <p class="card-text">Course Description: @applicationUser.Course.Description</p>
         </div>
     </div>
 

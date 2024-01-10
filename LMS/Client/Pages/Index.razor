@@ -8,34 +8,7 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject HttpClient Http
 
-@code {
-    private ApplicationUserDTO currentUser;
-    string userId = String.Empty;
-    string test = String.Empty;
 
-    protected async Task OnInitalizedAsync()
-    {
-        test = "skjdh";
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        userId = user.FindFirst(c => c.Type == "sub")?.Value;
-        if (user.Identity.IsAuthenticated)
-        {
-
-            // currentUser = await Http.GetFromJsonAsync<ApplicationUserDTO>($"https://localhost:7050/api/ApplicationUser/{userId}");
-        }
-
-    }
-
-
-    // private ApplicationUserDTO currentUser;
-    // public string UserId { get; set; }
-
-    // protected async Task OnIntializedAsync()
-    // {
-    //     currentUser = await Http.GetFromJsonAsync<ApplicationUserDTO>($"https://localhost:7050/api/ApplicationUser/{UserId}");
-    // }
-}
 
 <PageTitle>Index</PageTitle>
 
@@ -43,15 +16,17 @@
 
 @* <ApplicationOverview id="12345" /> *@
 <h1>LMS</h1>
-<p>@test</p>
+
 Welcome to LMS.
 
 <AuthorizeView Roles="Teacher">
     <Authorized >
         <h5>Hi Teacher: @context.User.Identity?.Name!</h5><br />
-        @* <p>@currentUser.FullName</p> *@
+        <p>Full name: @currentUser.FullName</p>
         <h6>You are signed in as Teacher!</h6>
+        <h3>UserId:</h3>
         <p>@userId</p>
+
 
     </Authorized>
 </AuthorizeView>
@@ -60,8 +35,10 @@ Welcome to LMS.
 <AuthorizeView Roles="Student">
     <Authorized>
         <h5>Hi Student: @context.User.Identity?.Name!</h5><br />
-        
-        <h6>You are signed in as student!</h6>
+        <p>Full name: @currentUser.FullName</p>
+        <h6>You are signed in as Student!</h6>
+        <h3>UserId:</h3>
+        <p>@userId</p>
     </Authorized>
 </AuthorizeView>
 
@@ -72,3 +49,29 @@ Welcome to LMS.
 </AuthorizeView>
 
 
+@code {
+
+    private string userId = string.Empty;
+    private ApplicationUserDTO currentUser;
+    private async Task GetUserInformation()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            userId = user.FindFirst(c => c.Type == "sub")?.Value;
+            currentUser = await Http.GetFromJsonAsync<ApplicationUserDTO>($"api/ApplicationUser/{userId}");
+
+        }
+        else
+        {
+            // User is not authenticated
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetUserInformation();
+    }
+}

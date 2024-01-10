@@ -22,7 +22,7 @@
     <AuthorizeView Roles="Teacher, Student">
         <Authorized>
             <div class="nav-item px-3">
-                <NavLink class="nav-link" href="moduleoverview">
+            <NavLink class="nav-link" href="moduleoverview/{userId}">
                     <span class="oi oi-list-rich" aria-hidden="true"></span> Module overview
                 </NavLink>
             </div>
@@ -31,7 +31,7 @@
         <AuthorizeView Roles="Teacher, Student">
             <Authorized>
                 <div class="nav-item px-3">
-            <NavLink class="nav-link" href="studentoverview">
+            <NavLink class="nav-link" href="studentoverview/{userId}">
                         <span class="oi oi-list-rich" aria-hidden="true"></span>Student
                     </NavLink>
                 </div>

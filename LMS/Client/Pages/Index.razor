@@ -6,6 +6,7 @@
 @using Microsoft.AspNetCore.Authorization
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavManager
 @inject HttpClient Http
 
 
@@ -21,30 +22,26 @@ Welcome to LMS.
 
 <AuthorizeView Roles="Teacher">
     <Authorized >
-        <h5>Hi Teacher: @context.User.Identity?.Name!</h5><br />
-        <p>Full name: @currentUser.FullName</p>
+        <h5>Hi @currentUser.FullName</h5><br />
         <h6>You are signed in as Teacher!</h6>
-        <h3>UserId:</h3>
-        <p>@userId</p>
-
-
+        <h6>Course: @currentUser.Course.Name</h6>
+        <a class="btn btn-primary" href="useroverview/{@currentUser.Id}" role="button">Details</a>
     </Authorized>
 </AuthorizeView>
 
 
 <AuthorizeView Roles="Student">
     <Authorized>
-        <h5>Hi Student: @context.User.Identity?.Name!</h5><br />
-        <p>Full name: @currentUser.FullName</p>
+        <h5>Hi @currentUser.FullName</h5><br />
         <h6>You are signed in as Student!</h6>
-        <h3>UserId:</h3>
-        <p>@userId</p>
+        <h6>Course: @currentUser.Course.Name</h6>
+        <a class="btn btn-primary" href="useroverview/{@currentUser.Id}" role="button">Details</a>
     </Authorized>
 </AuthorizeView>
 
 <AuthorizeView>
     <NotAuthorized>
-        <h6>You are visitor!</h6>
+        <h6>Hello visitor!</h6>
     </NotAuthorized>
 </AuthorizeView>
 
@@ -53,6 +50,9 @@ Welcome to LMS.
 
     private string userId = string.Empty;
     private ApplicationUserDTO currentUser;
+    private CourseDTO userCourse;
+    private ModuleDTO userModule;
+
     private async Task GetUserInformation()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -70,8 +70,17 @@ Welcome to LMS.
         }
     }
 
+    // private void NavigateToUserOveriew()
+    // {
+    //     NavManager.NavigateTo($"/ApplicationUserOverview/{currentUser.Id}");
+    // }
+
     protected override async Task OnInitializedAsync()
     {
         await GetUserInformation();
+        // if (currentUser.IsTeacher)
+        // {
+        //     NavigateToUserOveriew();
+        // }
     }
 }

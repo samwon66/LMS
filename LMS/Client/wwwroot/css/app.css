@@ -1,7 +1,32 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
+:root {
+    --primary-color: #512bd4;
+    --secondary-color: #9780e5;
+    --light-color: #d9d9d9;
+    --info-color: rgba(59,130,246,.5);
+}
 html, body {
+    
+    background-color: var(--light-color);
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.card {
+    background-color: var(--primary-color);
+    border-color: var(--secondary-color);
+}
+
+.card-header {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.list-group-item {
+    background-color: var(--info-color);
+    color: white;
+}
+   
 }
 
 h1:focus {

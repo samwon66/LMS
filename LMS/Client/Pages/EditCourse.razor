@@ -1,0 +1,106 @@
+﻿@page "/editCourse/{CourseId:guid}"
+
+@using LMS.Shared.Dtos
+@using System.Net.Http.Json
+@inherits OwningComponentBase
+@using System.Text.Json
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+@attribute [Authorize(Roles = "Teacher")]
+
+<h3>Edit Course: @course?.Name</h3>
+
+@if (course != null)
+{
+    <EditForm Model="course" OnValidSubmit="UpdateCourse">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="Name">Name:</label>
+            <InputText id="Name" @bind-Value="course.Name" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="Description">Description:</label>
+            <InputText id="Description" @bind-Value="course.Description" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="StartDate">Start Date:</label>
+            <InputDate id="StartDate" @bind-Value="course.StartDate" class="form-control" />
+        </div>
+
+        <!-- Add other fields as needed -->
+
+        <button type="submit" class="btn btn-primary">Update Course</button>
+        <button class="btn btn-secondary" @onclick="CancelEdit">Cancel</button>
+    </EditForm>
+}
+else
+{
+    <p><strong>Error:</strong> An unexpected error occurred or the course was not found.</p>
+}
+
+@code {
+    [Parameter]
+    public Guid CourseId { get; set; }
+    private CourseDTO course;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await RefreshCourseData();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching course data: {ex}");
+            course = null;
+        }
+    }
+
+    private async Task RefreshCourseData()
+    {
+        try
+        {
+            var response = await HttpClient.GetAsync($"https://localhost:7050/api/course/{CourseId}");
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            course = JsonSerializer.Deserialize<CourseDTO>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching course data: {ex}");
+            course = null;
+        }
+    }
+
+    private async Task UpdateCourse()
+    {
+        try
+        {
+            var response = await HttpClient.PutAsJsonAsync($"https://localhost:7050/api/course/{CourseId}", course);
+            response.EnsureSuccessStatusCode();
+
+            // Optionally, navigate to a different page or provide feedback
+            NavigationManager.NavigateTo($"/courseOverview/{CourseId}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error updating course: {ex}");
+            // Optionally, provide feedback to the user about the error
+        }
+    }
+
+    private void CancelEdit()
+    {
+        // Optionally, navigate back to the course overview page
+        NavigationManager.NavigateTo($"/courseOverview/{CourseId}");
+    }
+}

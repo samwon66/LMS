@@ -5,7 +5,7 @@
 namespace LMS.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class NewTeacherOverview : Migration
+    public partial class reseed : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

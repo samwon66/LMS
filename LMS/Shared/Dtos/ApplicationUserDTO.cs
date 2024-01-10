@@ -8,5 +8,6 @@
         public CourseDTO Course { get; set; }
         public List<ApplicationUserDTO> CourseParticipants { get; set; }
         public List<ModuleDTO> Modules { get; set; }
+        public bool IsTeacher { get; set; } // Add this property
     }
 }

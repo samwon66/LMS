@@ -116,8 +116,59 @@ namespace LMS.Server.Data
                             }
 
                     }
-                }
+                },
+
+
+
                 // Add more courses as needed
+            },
+                new Course
+            {
+                Id = Guid.NewGuid(),
+                Name = "Java Programming",
+                Description = "Description for Java Programming",
+                StartDate = DateTime.Now,
+                Modules = new List<Module>
+                {
+                     new Module
+                        {
+                            Id = Guid.NewGuid(),
+                            Name = "C#",
+                            Description = "Description for C#",
+                            StartDate = DateTime.Now,
+                            EndDate = DateTime.Now.AddDays(30),
+                            Activities = new List<Activity>
+                            {
+                                new Activity
+                                {
+                                    Id = Guid.NewGuid(),
+                                    Name = "C# fundamental",
+                                    Description = "Description for C# fundamental",
+                                    StartDate = DateTime.Now,
+                                    EndDate = DateTime.Now.AddDays(14),
+                                    ActivityType = new ActivityType
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        Name = "E-learning"
+                                    }
+                                },
+                                // Add more activities as needed
+                                new Activity
+                                {
+                                    Id = Guid.NewGuid(),
+                                    Name = "Exercise",
+                                    Description = "Description for Exercise",
+                                    StartDate = DateTime.Now,
+                                    EndDate = DateTime.Now.AddDays(7),
+                                    ActivityType = new ActivityType
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        Name = "Exercise"
+                                    }
+                                }
+                            }
+                        },
+                }
             }
             };
 

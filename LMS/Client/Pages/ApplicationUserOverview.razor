@@ -3,8 +3,10 @@
 @using System.Text.Json
 @using LMS.Shared.Dtos
 @using Microsoft.AspNetCore.Authorization
+
 @page "/studentoverview/{UserId}"
 @inject HttpClient Http
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 @if (applicationUser == null)
 {
@@ -17,34 +19,52 @@ else
         <div class="card-body">
             <h5 class="card-title">@applicationUser.FullName</h5>
             <p class="card-text">Email: @applicationUser.Email</p>
-            <p class="card-text">Course: @applicationUser.Course.Name</p>
-            <p class="card-text">Course Description: @applicationUser.Course.Description</p>
+
+            @if (applicationUser.Course != null)
+            {
+                <p class="card-text">Course: @applicationUser.Course.Name</p>
+                <p class="card-text">Course Description: @applicationUser.Course.Description</p>
+
+                <div>
+                    <h4>Course Participants:</h4>
+                    <ul class="list-group">
+                        @foreach (var participant in applicationUser.CourseParticipants)
+                        {
+                            <li class="list-group-item">@participant.FullName - @participant.Email</li>
+                        }
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>Modules:</h4>
+                    @foreach (var module in applicationUser.Modules)
+                    {
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <h5 class="card-title">@module.Name</h5>
+                                <p class="card-text">@module.Description</p>
+                                <p class="card-text">Start: @module.StartDate.ToShortDateString() - End: @module.EndDate.ToShortDateString()</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="card-text">No Course information available</p>
+            }
         </div>
     </div>
 
-    <div>
-        <h4>Course Participants:</h4>
-        <ul class="list-group">
-            @foreach (var participant in applicationUser.CourseParticipants)
-            {
-                <li class="list-group-item">@participant.FullName - @participant.Email</li>
-            }
-        </ul>
-    </div>
-
-    <div>
-        <h4>Modules:</h4>
-        @foreach (var module in applicationUser.Modules)
-        {
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h5 class="card-title">@module.Name</h5>
-                    <p class="card-text">@module.Description</p>
-                    <p class="card-text">Start: @module.StartDate.ToShortDateString() - End: @module.EndDate.ToShortDateString()</p>
-                </div>
-            </div>
-        }
-    </div>
+    @if (isUserInTeacherRole)
+    {
+        <div>
+            <!-- Add teacher-specific content or buttons here -->
+            <button class="btn btn-primary" @onclick="AddCourse">Add Course</button>
+            <button class="btn btn-secondary" @onclick="EditCourse">Edit Course</button>
+            <button class="btn btn-danger" @onclick="DeleteCourse">Delete Course</button>
+        </div>
+    }
 }
 
 @code {
@@ -52,9 +72,62 @@ else
     public string UserId { get; set; }
 
     private ApplicationUserDTO applicationUser;
+    private bool isUserInTeacherRole;
 
     protected override async Task OnInitializedAsync()
     {
-        applicationUser = await Http.GetFromJsonAsync<ApplicationUserDTO>($"https://localhost:7050/api/ApplicationUser/{UserId}");
+        await RefreshUserData();
+    }
+
+    private async Task AddCourse()
+    {
+        // Placeholder for adding a course
+        // This action can only be accessed by users in the "Teacher" role
+        // Add your logic here
+
+        // Reload the user data after the operation
+        await RefreshUserData();
+    }
+
+    private async Task EditCourse()
+    {
+        // Placeholder for editing a course
+        // This action can only be accessed by users in the "Teacher" role
+        // Add your logic here
+
+        // Reload the user data after the operation
+        await RefreshUserData();
+    }
+
+    private async Task DeleteCourse()
+    {
+        // Placeholder for deleting a course
+        // This action can only be accessed by users in the "Teacher" role
+        // Add your logic here
+
+        // Reload the user data after the operation
+        await RefreshUserData();
+    }
+
+    private async Task RefreshUserData()
+    {
+        try
+        {
+            var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authenticationState.User;
+            var userRoles = user.FindAll("role").Select(r => r.Value).ToList();
+
+            applicationUser = await Http.GetFromJsonAsync<ApplicationUserDTO>($"https://localhost:7050/api/ApplicationUser/{UserId}");
+
+            // Check if the user is in the "Teacher" role
+            isUserInTeacherRole = userRoles.Contains("Teacher");
+
+            Console.WriteLine($"Received user data: {JsonSerializer.Serialize(applicationUser)}");
+        }
+        catch (Exception ex)
+        {
+            // Log or print the exception details for debugging
+            Console.WriteLine($"Error fetching user data: {ex.Message}");
+        }
     }
 }

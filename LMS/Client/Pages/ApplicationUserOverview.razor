@@ -3,7 +3,8 @@
 @using System.Text.Json
 @using LMS.Shared.Dtos
 @using Microsoft.AspNetCore.Authorization
-
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 @page "/studentoverview/{UserId}"
 @inject HttpClient Http
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -81,32 +82,71 @@ else
 
     private async Task AddCourse()
     {
-        // Placeholder for adding a course
-        // This action can only be accessed by users in the "Teacher" role
-        // Add your logic here
+        try
+        {
+            
 
-        // Reload the user data after the operation
-        await RefreshUserData();
+            if (isUserInTeacherRole)
+            {
+                // Navigate to the AddCourse page
+                NavigationManager.NavigateTo("/addCourse");
+            }
+            else
+            {
+                Console.WriteLine("User is not authorized to add a course.");
+            }
+
+            // Reload the user data after the operation
+            await RefreshUserData();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error adding course: {ex}");
+            // Optionally, provide feedback to the user about the error
+        }
     }
 
     private async Task EditCourse()
     {
-        // Placeholder for editing a course
-        // This action can only be accessed by users in the "Teacher" role
-        // Add your logic here
-
-        // Reload the user data after the operation
+        if (isUserInTeacherRole)
+        {
+            // Navigate to the AddCourse page
+            NavigationManager.NavigateTo($"/editCourse/{applicationUser.Course.Id}");
+        }
+        else
+        {
+            Console.WriteLine("User is not authorized to add a course.");
+        }
         await RefreshUserData();
     }
 
     private async Task DeleteCourse()
     {
-        // Placeholder for deleting a course
-        // This action can only be accessed by users in the "Teacher" role
-        // Add your logic here
+        try
+        {
+            if (isUserInTeacherRole)
+            {
+                var confirmDelete = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this course?");
 
-        // Reload the user data after the operation
-        await RefreshUserData();
+                if (confirmDelete)
+                {
+                    var response = await Http.DeleteAsync($"https://localhost:7050/api/ApplicationUser/DeleteCourse/{applicationUser.Course.Id}");
+                    response.EnsureSuccessStatusCode();
+
+                   
+                }
+            }
+            else
+            {
+                // Handle unauthorized access for deletion
+                Console.WriteLine("Unauthorized access to delete course.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error deleting course: {ex}");
+            // Optionally, provide feedback to the user about the error
+        }
     }
 
     private async Task RefreshUserData()

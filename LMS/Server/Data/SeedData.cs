@@ -115,10 +115,101 @@ namespace LMS.Server.Data
                                 }
                             }
 
+                        }
+
+
+                    }
+                // Add more courses as needed
+                },
+                new Course
+                {   Id = Guid.NewGuid(),
+                    Name = "Java",
+                    Description = "Description for Java",
+                    StartDate = DateTime.Now,
+                    Modules = new List<Module>
+                    {
+                        new Module
+                        {
+                            Id = Guid.NewGuid(),
+                            Name = "C#",
+                            Description = "Description for Java",
+                            StartDate = DateTime.Now,
+                            EndDate = DateTime.Now.AddDays(30),
+                            Activities = new List<Activity>
+                            {
+                                new Activity
+                                {
+                                    Id = Guid.NewGuid(),
+                                    Name = "Java for beginner",
+                                    Description = "Description for Java for beginner",
+                                    StartDate = DateTime.Now,
+                                    EndDate = DateTime.Now.AddDays(14),
+                                    ActivityType = new ActivityType
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        Name = "E-learning"
+                                    }
+                                },
+                                // Add more activities as needed
+                                new Activity
+                                {
+                                    Id = Guid.NewGuid(),
+                                    Name = "Exercise",
+                                    Description = "Description for Exercise",
+                                    StartDate = DateTime.Now,
+                                    EndDate = DateTime.Now.AddDays(7),
+                                    ActivityType = new ActivityType
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        Name = "Exercise"
+                                    }
+                                }
+                            }
+                        },
+                        // Add more modules as needed
+                        new Module
+                        {
+                            Id = Guid.NewGuid(),
+                            Name = "Database",
+                            Description = "Description for Database",
+                            StartDate = DateTime.Now,
+                            EndDate = DateTime.Now.AddDays(14),
+                            Activities = new List<Activity>
+                            {
+                                new Activity
+                                {
+                                    Id = Guid.NewGuid(),
+                                    Name = "SQL basic",
+                                    Description = "Description for SQL basic",
+                                    StartDate = DateTime.Now,
+                                    EndDate = DateTime.Now.AddDays(7),
+                                    ActivityType = new ActivityType
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        Name = "Lecture"
+                                    }
+                                },
+                                // Add more activities as needed
+                                new Activity
+                                {
+                                    Id = Guid.NewGuid(),
+                                    Name = "Project",
+                                    Description = "Description for project",
+                                    StartDate = DateTime.Now,
+                                    EndDate = DateTime.Now.AddDays(7),
+                                    ActivityType = new ActivityType
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        Name = "project"
+                                    }
+                                }
+                            }
+
+                        }
+
+
                     }
                 }
-                // Add more courses as needed
-            }
             };
 
 
@@ -133,6 +224,11 @@ namespace LMS.Server.Data
             Course c = context.Courses.FirstOrDefault();
             await AddAccountAsync(teacherEmail, "Anders", "Andersson", "Teacher", "P@55w.rd", c.Id, c);
             await AddAccountAsync(studentEmail, "Tony", "Olsson", "Student", "Pa55w.rd", c.Id, c);
+            await AddAccountAsync("test1@student.com", "David", "Bengtsson", "Student", "Pa55w.rd", c.Id, c);
+            await AddAccountAsync("test2@student.com", "Josefine", "Rohman", "Student", "Pa55w.rd", c.Id, c);
+            await AddAccountAsync("test3@student.com", "Bengt", "Danielsson", "Student", "Pa55w.rd", c.Id, c);
+            await AddAccountAsync("test4@student.com", "Peter", "Lagrelius", "Student", "Pa55w.rd", c.Id, c);
+            await AddAccountAsync("test5@student.com", "Maria", "Lång", "Student", "Pa55w.rd", c.Id, c);
         }
 
         private static async Task AddRolesAsync(string[] roleNames)

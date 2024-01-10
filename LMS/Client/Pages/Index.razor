@@ -25,6 +25,7 @@ Welcome to LMS.
         <h5>Hi @currentUser.FullName</h5><br />
         <h6>You are signed in as Teacher!</h6>
         <h6>Course: @currentUser.Course.Name</h6>
+        <a class="btn btn-primary" href="/moduleslist/{@currentUser.Course.Id}" role="button">Modules</a>
         <a class="btn btn-primary" href="useroverview/{@currentUser.Id}" role="button">Details</a>
     </Authorized>
 </AuthorizeView>

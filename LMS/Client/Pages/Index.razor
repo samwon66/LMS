@@ -71,17 +71,9 @@ Welcome to LMS.
         }
     }
 
-    // private void NavigateToUserOveriew()
-    // {
-    //     NavManager.NavigateTo($"/ApplicationUserOverview/{currentUser.Id}");
-    // }
-
+    
     protected override async Task OnInitializedAsync()
     {
         await GetUserInformation();
-        // if (currentUser.IsTeacher)
-        // {
-        //     NavigateToUserOveriew();
-        // }
     }
 }

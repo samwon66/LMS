@@ -35,12 +35,12 @@
 
     <!-- Buttons for Editing and Deleting the Course -->
     @if (IsUserInTeacherRole)
-    {
+{
         <div>
             <button class="btn btn-primary" @onclick="EditCourse">Edit Course</button>
             <button class="btn btn-danger" @onclick="DeleteCourse">Delete Course</button>
         </div>
-    }
+}
 }
 else
 {
@@ -81,7 +81,7 @@ else
             course = JsonSerializer.Deserialize<CourseDTO>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
         catch (Exception ex)
-        {
+            {
             Console.WriteLine($"Error fetching course data: {ex}");
             course = null;
         }
@@ -108,8 +108,12 @@ else
         {
             Console.WriteLine($"Error editing course: {ex}");
             // Optionally, provide feedback to the user about the error
-        }
-    }
+            }
+
+        </tbody>
+
+    </table>
+}
 
     private async Task DeleteCourse()
     {
@@ -129,15 +133,17 @@ else
                 }
             }
             else
-            {
+    {
                 // Handle unauthorized access for deletion
                 Console.WriteLine("Unauthorized access to delete course.");
             }
-        }
+    }
         catch (Exception ex)
-        {
+    {
             Console.WriteLine($"Error deleting course: {ex}");
             // Optionally, provide feedback to the user about the error
         }
     }
 }
+
+

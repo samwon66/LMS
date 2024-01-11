@@ -1,6 +1,12 @@
 ﻿using LMS.Server.Models.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+
+
 
 namespace LMS.Shared.Dtos
 {
@@ -15,12 +21,30 @@ namespace LMS.Shared.Dtos
         public ICollection<StudentDTO> Participants { get; set; } = new List<StudentDTO>();
         public ICollection<ModuleDTO> Modules { get; set; } = new List<ModuleDTO>();
 
+
         public CourseDTO()
         {
         }
+        public CourseDTO(Guid id, string name, string description, DateTime startDate)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            StartDate = startDate;
+            
+        }
 
-     
+        public CourseDTO(Guid id, string name, string description, DateTime startDate, ICollection<ApplicationUserDTO> applicationUsers, ICollection<ModuleDTO> modules)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            StartDate = startDate;
+            ApplicationUsers = applicationUsers;
+            Modules = modules;
+        }
 
-
+        
     }
+
 }

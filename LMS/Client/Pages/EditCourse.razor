@@ -6,6 +6,7 @@
 @using System.Text.Json
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
+
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
@@ -36,10 +37,13 @@
         </div>
 
         <!-- Add other fields as needed -->
-
+       
+        
+        <button class="btn btn-outline-primary" @onclick="NavigateBack">Back</button>
         <button type="submit" class="btn btn-primary">Update Course</button>
         <button class="btn btn-secondary" @onclick="CancelEdit">Cancel</button>
     </EditForm>
+    
 }
 else
 {
@@ -62,6 +66,12 @@ else
             Console.WriteLine($"Error fetching course data: {ex}");
             course = null;
         }
+    }
+
+    private void NavigateBack() 
+    { 
+        NavigationManager.NavigateTo(NavigationManager.Uri.Contains("editCourse") ? "/editcourse/{CourseId}" : "/"); 
+        
     }
 
     private async Task RefreshCourseData()
@@ -89,7 +99,7 @@ else
             response.EnsureSuccessStatusCode();
 
             // Optionally, navigate to a different page or provide feedback
-            NavigationManager.NavigateTo($"/courseOverview/{CourseId}");
+            
         }
         catch (Exception ex)
         {
@@ -101,6 +111,7 @@ else
     private void CancelEdit()
     {
         // Optionally, navigate back to the course overview page
-        NavigationManager.NavigateTo($"/courseOverview/{CourseId}");
+        //NavigationManager.NavigateTo($"/courseOverview/{CourseId}");
+        NavigationManager.NavigateTo($"/courselist");
     }
 }

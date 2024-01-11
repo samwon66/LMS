@@ -29,7 +29,8 @@
                     <td>@module.StartDate.ToShortDateString()</td>
                     <td>@module.EndDate.ToShortDateString()</td>
                     <td>
-                        <a href="@($"moduleoverview/{module.Id}")">View Details</a>
+                        <a href="@($"moduleoverview/{module.Id}")" class="btn btn-outline-primary">View</a>
+                        <a href="@($"editmodule/{module.Id}")" class="btn btn-outline-primary">Update</a>
                     </td>
                 </tr>
             }

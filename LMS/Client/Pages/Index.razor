@@ -13,12 +13,8 @@
 
 <PageTitle>Index</PageTitle>
 
-<h1>Welcome to the Application</h1>
+<h1>Welcome to LMS</h1>
 
-@* <ApplicationOverview id="12345" /> *@
-<h1>LMS</h1>
-
-Welcome to LMS.
 
 <AuthorizeView Roles="Teacher">
     <Authorized >
@@ -36,7 +32,9 @@ Welcome to LMS.
         <h5>Hi @currentUser.FullName</h5><br />
         <h6>You are signed in as Student!</h6>
         <h6>Course: @currentUser.Course.Name</h6>
-        <a class="btn btn-primary" href="user/{@currentUser.Id}" role="button">Details</a>
+        <a class="btn btn-primary" href="user/@currentUser.Id" role="button">Details</a>
+        <a class="btn btn-primary" href="courseoverview/@currentUser.Course.Id" role="button">Course</a>
+
     </Authorized>
 </AuthorizeView>
 

@@ -300,6 +300,9 @@ namespace LMS.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -312,6 +315,8 @@ namespace LMS.Server.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
 
                     b.ToTable("Courses");
                 });
@@ -513,6 +518,13 @@ namespace LMS.Server.Migrations
                     b.Navigation("Course");
                 });
 
+            modelBuilder.Entity("LMS.Server.Models.Domain.Course", b =>
+                {
+                    b.HasOne("LMS.Server.Models.Domain.Course", null)
+                        .WithMany("Courses")
+                        .HasForeignKey("CourseId");
+                });
+
             modelBuilder.Entity("LMS.Server.Models.Domain.Module", b =>
                 {
                     b.HasOne("LMS.Server.Models.Domain.Course", "Course")
@@ -583,6 +595,8 @@ namespace LMS.Server.Migrations
             modelBuilder.Entity("LMS.Server.Models.Domain.Course", b =>
                 {
                     b.Navigation("ApplicationUsers");
+
+                    b.Navigation("Courses");
 
                     b.Navigation("Modules");
                 });

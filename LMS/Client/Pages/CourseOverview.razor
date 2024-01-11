@@ -5,10 +5,15 @@
 @inherits OwningComponentBase
 @using System.Text.Json
 @using Microsoft.AspNetCore.Authorization
-
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 @attribute [Authorize(Roles = "Teacher, Student")]
 
-<h3>Overview of @course.Name</h3>
+<h3>Overview of @course?.Name</h3>
+
 @if (course != null)
 {
     <p><strong>Course Information:</strong></p>
@@ -27,30 +32,32 @@
     {
         <p><strong>Head Teacher:</strong> @course.HeadTeacher.FullName</p>
     }
+
+    <!-- Buttons for Editing and Deleting the Course -->
+    @if (IsUserInTeacherRole)
+{
+        <div>
+            <button class="btn btn-primary" @onclick="EditCourse">Edit Course</button>
+            <button class="btn btn-danger" @onclick="DeleteCourse">Delete Course</button>
+        </div>
+}
 }
 else
 {
-    <p><strong>Error:</strong> An unexpected error occurred.</p>
+    <p><strong>Error:</strong> An unexpected error occurred or the course was not found.</p>
 }
 
 @code {
     [Parameter]
     public Guid CourseId { get; set; }
     private CourseDTO course;
+    private bool IsUserInTeacherRole;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            var httpClient = new HttpClient();
-            var response = await httpClient.GetAsync($"https://localhost:7050/api/course/{CourseId}");
-
-            var content = await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"API Response: {content}");
-
-            response.EnsureSuccessStatusCode();
-
-            course = JsonSerializer.Deserialize<CourseDTO>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            await RefreshCourseData();
         }
         catch (Exception ex)
         {
@@ -58,4 +65,82 @@ else
             course = null;
         }
     }
+
+    private async Task RefreshCourseData()
+    {
+        try
+        {
+            var response = await HttpClient.GetAsync($"https://localhost:7050/api/course/{CourseId}");
+            response.EnsureSuccessStatusCode();
+
+            var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authenticationState.User;
+            IsUserInTeacherRole = user.IsInRole("Teacher");
+
+            var content = await response.Content.ReadAsStringAsync();
+            course = JsonSerializer.Deserialize<CourseDTO>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
+        catch (Exception ex)
+            {
+            Console.WriteLine($"Error fetching course data: {ex}");
+            course = null;
+        }
+    }
+
+    private async Task EditCourse()
+    {
+        try
+        {
+            if (IsUserInTeacherRole)
+            {
+                // where the user can modify the course information
+
+                // Optionally, navigate to the edit page
+                NavigationManager.NavigateTo($"/editCourse/{CourseId}");
+            }
+            else
+            {
+                // Handle unauthorized access for editing
+                Console.WriteLine("Unauthorized access to edit course.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error editing course: {ex}");
+            // Optionally, provide feedback to the user about the error
+            }
+
 }
+
+    private async Task DeleteCourse()
+    {
+        try
+        {
+            if (IsUserInTeacherRole)
+            {
+                var confirmDelete = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this course?");
+
+                if (confirmDelete)
+                {
+                    var response = await HttpClient.DeleteAsync($"https://localhost:7050/api/course/{CourseId}");
+                    response.EnsureSuccessStatusCode();
+
+                    // Optionally, navigate to a different page or provide feedback
+                    NavigationManager.NavigateTo("/courses");
+                }
+            }
+            else
+    {
+                // Handle unauthorized access for deletion
+                Console.WriteLine("Unauthorized access to delete course.");
+            }
+    }
+        catch (Exception ex)
+    {
+            Console.WriteLine($"Error deleting course: {ex}");
+            // Optionally, provide feedback to the user about the error
+        }
+    }
+}
+
+

@@ -61,39 +61,51 @@ namespace LMS.Server.Controllers
             return Ok(courseDTO);
         }
 
-
-
-
-        [HttpPost]
-        [Authorize(Roles = "Teacher")]
-        public IActionResult PostCourse([FromBody] CourseDTO courseDTO)
+        [HttpGet("{courseId}/modules")]
+        public ActionResult<IEnumerable<ModuleDTO>> GetModulesForCourse(Guid courseId)
         {
-            // Map CourseDTO to Course entityf
-            var course = new Course
+            var modules = _dbContext.Modules.Where(m => m.CourseId == courseId).ToList();
+            var moduleDTOs = modules.Select(m => new ModuleDTO
             {
-                // Map properties from CourseDTO to Course entity
-            };
+                Id = m.Id,
+                Name = m.Name,
+                Description = m.Description,
+                StartDate = m.StartDate,
+                EndDate = m.EndDate,
+            }).ToList();
 
-            _dbContext.Courses.Add(course);
-            _dbContext.SaveChanges();
-
-            return CreatedAtAction(nameof(GetCourse), new { id = course.Id }, courseDTO);
+            return Ok(moduleDTOs);
         }
+
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Teacher")]
         public IActionResult PutCourse(Guid id, [FromBody] CourseDTO courseDTO)
         {
-            var course = _dbContext.Courses.Find(id);
+            var course = _dbContext.Courses
+                .Include(c => c.Modules) // Include related modules for proper tracking
+                .FirstOrDefault(c => c.Id == id);
 
             if (course == null)
             {
                 return NotFound();
             }
 
-            // Map properties from CourseDTO to Course entity
+            // Update properties from CourseDTO to Course entity
+            course.Name = courseDTO.Name;
+            course.Description = courseDTO.Description;
+            course.StartDate = courseDTO.StartDate;
 
-            _dbContext.Entry(course).State = EntityState.Modified;
+            course.Modules.Clear();
+            foreach (var moduleDTO in courseDTO.Modules)
+            {
+                var module = new Module
+                {
+                    // Map properties from ModuleDTO to Module entity
+                };
+                course.Modules.Add(module);
+            }
+
             _dbContext.SaveChanges();
 
             return NoContent();
@@ -109,6 +121,9 @@ namespace LMS.Server.Controllers
             {
                 return NotFound();
             }
+
+            // Assuming you want to cascade delete associated modules as well
+            _dbContext.Modules.RemoveRange(course.Modules);
 
             _dbContext.Courses.Remove(course);
             _dbContext.SaveChanges();

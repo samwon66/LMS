@@ -1,0 +1,67 @@
+﻿@page "/addCourse"
+
+@using LMS.Shared.Dtos
+@using System.Net.Http.Json
+@inherits OwningComponentBase
+@using System.Text.Json
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+@attribute [Authorize(Roles = "Teacher")]
+
+<h3>Add Course</h3>
+
+<EditForm Model="newCourse" OnValidSubmit="AddNewCourse">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="Name">Name:</label>
+        <InputText id="Name" @bind-Value="newCourse.Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="Description">Description:</label>
+        <InputText id="Description" @bind-Value="newCourse.Description" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="StartDate">Start Date:</label>
+        <InputDate id="StartDate" @bind-Value="newCourse.StartDate" class="form-control" />
+    </div>
+
+    <!-- Add other fields as needed -->
+
+    <button type="submit" class="btn btn-primary">Add Course</button>
+    <button class="btn btn-secondary" @onclick="CancelAdd">Cancel</button>
+</EditForm>
+
+@code {
+    private CourseDTO newCourse = new CourseDTO();
+
+    private async Task AddNewCourse()
+    {
+        try
+        {
+            var response = await HttpClient.PostAsJsonAsync("https://localhost:7050/api/course", newCourse);
+            response.EnsureSuccessStatusCode();
+
+            // Optionally, navigate to a different page or provide feedback
+            NavigationManager.NavigateTo("/courses");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error adding course: {ex}");
+            // Optionally, provide feedback to the user about the error
+        }
+    }
+
+    private void CancelAdd()
+    {
+        // Optionally, navigate back to the courses page
+        NavigationManager.NavigateTo("/courses");
+    }
+}

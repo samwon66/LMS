@@ -1,0 +1,83 @@
+﻿<h3>CourseList</h3>
+
+@using System.Net.Http
+
+@using LMS.Shared.Dtos
+@using Microsoft.AspNetCore.Authorization
+
+@inject HttpClient Http
+
+
+@page "/courselist"
+@* {ModuleId:guid} *@
+
+<h1>Courses</h1>
+
+@if (courses == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <p>
+        <a href="/Components/CourseCreate">Create New</a>
+    </p>
+
+
+    <table class="table table-sm table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Course ID </th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">Modules</th>
+
+
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var course in courses)
+            {
+                <tr>
+                    <th> scope="row">@course.Id</th>
+                    <td>@course.Name</td>
+                    <td>@course.Description</td>
+                    <td>@course.StartDate</td>
+
+
+                    @*  <td scope="row"><a href="@($"courseview/{course.Id}")" class="btn btn-outline-primary">View</a></td> *@
+                    <td scope="row"><a href="@($"courseupdate/{course.Id}")" class="btn btn-outline-primary">Update</a></td>
+                    <td scope="row"><a href="@($"coursedelete/{course.Id}")" class="btn btn-outline-primary">Delete</a></td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+}
+
+
+@code {
+    // private List<CourseDTO> courses = new();
+    private CourseDTO[]? courses;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await this.FetchCourses();
+    }
+
+    private async Task FetchCourses()
+    {
+        courses = await Http.GetFromJsonAsync<CourseDTO[]>("/api/course/getcourses");
+    }
+}
+
+
+

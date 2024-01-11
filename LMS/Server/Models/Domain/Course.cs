@@ -12,6 +12,11 @@ namespace LMS.Server.Models.Domain
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public DateTime StartDate { get; set; }
+
+        public List<Course> Courses { get; set; } = null;
+
+
+
         public ICollection<ApplicationUser> ApplicationUsers { get; set; } = new List<ApplicationUser>();
         public ICollection<Module> Modules { get; set; } = new List<Module>();
 

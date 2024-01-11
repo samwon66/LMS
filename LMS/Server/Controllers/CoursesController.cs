@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LMS.Server.Data;
 using LMS.Server.Models.Domain;
+using LMS.Shared.Dtos;
+using AutoMapper;
 
 namespace LMS.Server.Controllers
 {
@@ -15,10 +17,13 @@ namespace LMS.Server.Controllers
     public class CoursesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CoursesController(ApplicationDbContext context)
+
+        public CoursesController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Courses
@@ -31,6 +36,7 @@ namespace LMS.Server.Controllers
           }
             return await _context.Courses.ToListAsync();
         }
+
 
         // GET: api/Courses/5
         [HttpGet("{id}")]
@@ -49,6 +55,7 @@ namespace LMS.Server.Controllers
 
             return course;
         }
+
 
         // PUT: api/Courses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -82,20 +89,23 @@ namespace LMS.Server.Controllers
         }
 
 
-        // POST: api/Courses
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
+        //POST: api/Courses
+        //To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Course>> PostCourse(Course course)
         {
-          if (_context.Courses == null)
-          {
-              return Problem("Entity set 'ApplicationDbContext.Courses'  is null.");
-          }
+            if (_context.Courses == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Courses'  is null.");
+            }
             _context.Courses.Add(course);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCourse", new { id = course.Id }, course);
         }
+
+
 
         // DELETE: api/Courses/5
         [HttpDelete("{id}")]
@@ -116,6 +126,7 @@ namespace LMS.Server.Controllers
 
             return NoContent();
         }
+
 
         private bool CourseExists(Guid id)
         {

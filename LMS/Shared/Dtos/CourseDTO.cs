@@ -16,6 +16,8 @@ namespace LMS.Shared.Dtos
         public string Description { get; set; } = string.Empty;
         public DateTime StartDate { get; set; }
 
+      
+
 
         public ICollection<ApplicationUserDTO> ApplicationUsers { get; set; } = new List<ApplicationUserDTO>();
         public ICollection<ModuleDTO> Modules { get; set; } = new List<ModuleDTO>();

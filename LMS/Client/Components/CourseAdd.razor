@@ -1,0 +1,56 @@
+﻿@inject HttpClient Http
+@page "/courseadd"
+@using LMS.Shared
+
+@using LMS.Shared.Dtos
+@using System.Net.Http.Json
+@inherits OwningComponentBase
+@using System.Text.Json
+@using Microsoft.AspNetCore.Authorization
+
+<h3>CourseAdd</h3>
+
+
+<section class="course-edit">
+    <EditForm Model="@Course" OnValidSubmit="@HandleValidSubmit">
+
+        <DataAnnotationsValidator />
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Name </th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Start Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+
+                    <td scope="row">
+                        <InputText id="Name" @bind-Value="Course.Name" class="form-control col-md-8"></InputText>
+                        <ValidationMessage For="@(() => Course.Name)" />
+                    </td>
+                    <td scope="row">
+                        <InputText id="Name" @bind-Value="Course.Description" class="form-control col-md-8"></InputText>
+                        <ValidationMessage For="@(() => Course.Name)" />
+                    </td>
+                    <td scope="row">
+                        <InputDate id="Date" @bind-Value="Course.StartDate" class="form-control col-md-8"></InputDate>
+                    </td>
+                             
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <a href="@($"courseoverview")" class="btn btn-outline-primary">Back to Device list</a>&nbsp;
+        <button type="submit" class="btn btn-primary me-1">Add Course</button>
+    </EditForm>
+</section>
+
+@* @code {
+
+} *@

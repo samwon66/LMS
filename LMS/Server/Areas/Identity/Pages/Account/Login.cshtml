@@ -6,11 +6,11 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-<div class="row" style="background-image: url('login.jpg'); background-size: cover; height: 200px; width: 100%;">
+<div class="row">
+
     <div class="col-md-4" style="background-color:#918bb9">
         <section style="background-color:#483d8b">
             <form id="account" method="post">
-                <h2>Use a local account to log in.</h2>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                 <div class="form-floating mb-3">
@@ -46,9 +46,13 @@
             </form>
         </section>
     </div>
+  
     <div class="col-md-6 col-md-offset-2">
         <section>
             <h3>Use another service to log in.</h3>
+            
+
+            </section>
             <hr />
             @{
                 if ((Model.ExternalLogins?.Count ?? 0) == 0)
@@ -72,7 +76,7 @@
                                     <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
                                 }
                             </p>
-                        </div>
+                        </div
                     </form>
                 }
             }

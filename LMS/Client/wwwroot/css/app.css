@@ -11,7 +11,11 @@ html,body {
    background-color:#3e3eaa
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
-
+.flex-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
 
 /*.card {*/
     /*background-color: var(--primary-color);*/

@@ -1,6 +1,4 @@
-﻿<h3>CourseList</h3>
-
-@using System.Net.Http
+﻿@using System.Net.Http
 
 @using LMS.Shared.Dtos
 @using Microsoft.AspNetCore.Authorization
@@ -8,8 +6,8 @@
 @inject HttpClient Http
 
 
-@page "/courselist"
-@* {ModuleId:guid} *@
+@page "/courseoverview"
+ @* {ModuleId:guid} *@
 
 <h1>Courses</h1>
 
@@ -64,7 +62,7 @@ else
 }
 
 
-@code {
+@code{
     // private List<CourseDTO> courses = new();
     private CourseDTO[]? courses;
 
@@ -78,6 +76,5 @@ else
         courses = await Http.GetFromJsonAsync<CourseDTO[]>("/api/course/getcourses");
     }
 }
-
 
 

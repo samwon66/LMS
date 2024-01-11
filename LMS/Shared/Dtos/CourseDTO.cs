@@ -25,24 +25,7 @@ namespace LMS.Shared.Dtos
         public CourseDTO()
         {
         }
-        public CourseDTO(Guid id, string name, string description, DateTime startDate)
-        {
-            Id = id;
-            Name = name;
-            Description = description;
-            StartDate = startDate;
-            
-        }
-
-        public CourseDTO(Guid id, string name, string description, DateTime startDate, ICollection<ApplicationUserDTO> applicationUsers, ICollection<ModuleDTO> modules)
-        {
-            Id = id;
-            Name = name;
-            Description = description;
-            StartDate = startDate;
-            ApplicationUsers = applicationUsers;
-            Modules = modules;
-        }
+        
 
         
     }

@@ -25,8 +25,8 @@ Welcome to LMS.
         <h5>Hi @currentUser.FullName</h5><br />
         <h6>You are signed in as Teacher!</h6>
         <h6>Course: @currentUser.Course.Name</h6>
-        <a class="btn btn-primary" href="/moduleslist/{@currentUser.Course.Id}" role="button">Modules</a>
-        <a class="btn btn-primary" href="useroverview/{@currentUser.Id}" role="button">Details</a>
+        <a class="btn btn-primary" href="/courselist/@* {@currentUser.Course.Id} *@" role="button">Courses</a>
+        <a class="btn btn-primary" href="user/{@currentUser.Id}" role="button">Details</a>
     </Authorized>
 </AuthorizeView>
 
@@ -36,7 +36,7 @@ Welcome to LMS.
         <h5>Hi @currentUser.FullName</h5><br />
         <h6>You are signed in as Student!</h6>
         <h6>Course: @currentUser.Course.Name</h6>
-        <a class="btn btn-primary" href="useroverview/{@currentUser.Id}" role="button">Details</a>
+        <a class="btn btn-primary" href="user/{@currentUser.Id}" role="button">Details</a>
     </Authorized>
 </AuthorizeView>
 
@@ -51,9 +51,7 @@ Welcome to LMS.
 
     private string userId = string.Empty;
     private ApplicationUserDTO currentUser;
-    private CourseDTO userCourse;
-    private ModuleDTO userModule;
-
+    
     private async Task GetUserInformation()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();

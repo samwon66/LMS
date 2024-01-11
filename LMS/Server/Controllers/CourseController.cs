@@ -61,7 +61,21 @@ namespace LMS.Server.Controllers
             return Ok(courseDTO);
         }
 
+        [HttpGet("{courseId}/modules")]
+        public ActionResult<IEnumerable<ModuleDTO>> GetModulesForCourse(Guid courseId)
+        {
+            var modules = _dbContext.Modules.Where(m => m.CourseId == courseId).ToList();
+            var moduleDTOs = modules.Select(m => new ModuleDTO
+            {
+                Id = m.Id,
+                Name = m.Name,
+                Description = m.Description,
+                StartDate = m.StartDate,
+                EndDate = m.EndDate,
+            }).ToList();
 
+            return Ok(moduleDTOs);
+        }
 
 
         [HttpPut("{id}")]

@@ -1,0 +1,59 @@
+﻿@page "/activitieslist/{ModuleId:guid}"
+@using System.Net.Http
+@using LMS.Shared.Dtos
+@using Microsoft.AspNetCore.Authorization
+
+
+@attribute [Authorize(Roles = "Teacher, Student")]
+
+<h3>Activities List for @module.Name</h3>
+
+@if (module != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Activity Type</th>
+                <th>Module Id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var activity in module.Activities)
+            {
+                <tr>
+                    <td>@activity.Name</td>
+                    <td>@activity.Description</td>
+                    <td>@activity.StartDate.ToShortDateString()</td>
+                    <td>@activity.EndDate.ToShortDateString()</td>
+                    <td>@activity.ActivityType.Name</td>
+                    <td>@module.Id</td>
+                    <td>
+                        <a href="@($"activityoverview/{activity.Id}")">View Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No modules available for the course.</p>
+}
+
+@code {
+    [Parameter]
+    public Guid ModuleId { get; set; }
+    private ModuleDTO module;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var httpClient = new HttpClient();
+        module = await httpClient.GetFromJsonAsync<ModuleDTO>($"https://localhost:7050/api/module/{ModuleId}");
+    }
+}
+

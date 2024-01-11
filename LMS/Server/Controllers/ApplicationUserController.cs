@@ -76,11 +76,7 @@ namespace LMS.Server.Controllers
         [HttpPost("AddCourse")]
         public async Task<IActionResult> AddCourse([FromBody] CourseDTO courseDTO)
         {
-            // Placeholder for adding a course
-            // This action can only be accessed by authenticated users
-            // Add your logic here
-
-            // For demonstration purposes, let's assume the course is added successfully
+         
             return Ok("Course added successfully");
         }
 
@@ -88,11 +84,7 @@ namespace LMS.Server.Controllers
         [HttpPut("EditCourse/{courseId}")]
         public async Task<IActionResult> EditCourse(Guid courseId, [FromBody] CourseDTO courseDTO)
         {
-            // Placeholder for editing a course
-            // This action can only be accessed by users in the "Teacher" role
-            // Add your logic here
-
-            // For demonstration purposes, let's assume the course is edited successfully
+        
             return Ok("Course edited successfully");
         }
 
@@ -100,11 +92,7 @@ namespace LMS.Server.Controllers
         [HttpDelete("DeleteCourse/{courseId}")]
         public async Task<IActionResult> DeleteCourse(Guid courseId)
         {
-            // Placeholder for deleting a course
-            // This action can only be accessed by users in the "Teacher" role
-            // Add your logic here
-
-            // For demonstration purposes, let's assume the course is deleted successfully
+        
             return Ok("Course deleted successfully");
         }
     

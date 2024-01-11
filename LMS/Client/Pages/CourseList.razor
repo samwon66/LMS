@@ -4,10 +4,10 @@
 
 @using LMS.Shared.Dtos
 @using Microsoft.AspNetCore.Authorization
-
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject HttpClient Http
-
-
+@inject IJSRuntime JSRuntime
 @page "/courselist"
 @* {ModuleId:guid} *@
 
@@ -32,11 +32,8 @@ else
                 <th scope="col">Description</th>
                 <th scope="col">Start Date</th>
                 <th scope="col">Modules</th>
-
-
                 <th scope="col">Update</th>
                 <th scope="col">Delete</th>
-
             </tr>
         </thead>
 
@@ -45,15 +42,14 @@ else
             @foreach (var course in courses)
             {
                 <tr>
-                    <th> scope="row">@course.Id</th>
+                    <th scope="row">@course.Id</th>
                     <td>@course.Name</td>
                     <td>@course.Description</td>
                     <td>@course.StartDate</td>
-
-
-                    @*  <td scope="row"><a href="@($"courseview/{course.Id}")" class="btn btn-outline-primary">View</a></td> *@
-                    <td scope="row"><a href="@($"courseupdate/{course.Id}")" class="btn btn-outline-primary">Update</a></td>
+                    <td>@* You can display modules here using course.Modules *@</td>
+                    <td scope="row"><a href="@($"editCourse/{course.Id}")" class="btn btn-outline-primary">Update</a></td>
                     <td scope="row"><a href="@($"coursedelete/{course.Id}")" class="btn btn-outline-primary">Delete</a></td>
+
 
                 </tr>
             }
@@ -63,21 +59,53 @@ else
     </table>
 }
 
-
 @code {
-    // private List<CourseDTO> courses = new();
     private CourseDTO[]? courses;
+
+    // existing code
 
     protected override async Task OnInitializedAsync()
     {
-        await this.FetchCourses();
+        await FetchCourses();
     }
 
     private async Task FetchCourses()
     {
-        courses = await Http.GetFromJsonAsync<CourseDTO[]>("/api/course/getcourses");
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            // Fetch courses from the new GetCoursesList action
+            courses = await Http.GetFromJsonAsync<CourseDTO[]>("/api/course");
+        }
+        else
+        {
+            // User is not authenticated
+        }
+    }
+
+    @code {
+        private async Task DeleteCourse(Guid courseId)
+        {
+            try
+            {
+                var confirmDelete = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this course?");
+
+                if (confirmDelete)
+                {
+                    var response = await Http.DeleteAsync($"https://localhost:7050/api/courses/{courseId}");
+                    response.EnsureSuccessStatusCode();
+
+                    // Refresh the course list after deletion
+                    await FetchCourses();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting course: {ex}");
+                // Optionally, provide feedback to the user about the error
+            }
+        }
     }
 }
-
-
-

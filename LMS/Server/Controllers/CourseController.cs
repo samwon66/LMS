@@ -18,6 +18,37 @@ namespace LMS.Server.Controllers
     {
         private readonly ApplicationDbContext _dbContext;
 
+        [HttpGet]
+        public ActionResult<IEnumerable<CourseDTO>> GetCoursesList()
+        {
+            var courses = _dbContext.Courses
+                .Include(c => c.Modules)
+                .Select(course => new CourseDTO
+                {
+                    Id = course.Id,
+                    Name = course.Name,
+                    Description = course.Description,
+                    StartDate = course.StartDate,
+                    HeadTeacher = new TeacherDTO
+                    {
+                        // Set properties based on your actual logic for getting the head teacher
+                    },
+                    Participants = new List<StudentDTO>(), // Initialize an empty list since Participants is not in the Course entity
+                    Modules = course.Modules.Select(m => new ModuleDTO
+                    {
+                        // Map properties from Module entity to ModuleDTO
+                        Id = m.Id,
+                        Name = m.Name,
+                        Description = m.Description,
+                        StartDate = m.StartDate,
+                        EndDate = m.EndDate,
+                        // ... Map other properties
+                    }).ToList()
+                }).ToList();
+
+            return Ok(courses);
+        }
+
         public CourseController(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -60,6 +91,7 @@ namespace LMS.Server.Controllers
 
             return Ok(courseDTO);
         }
+
 
         [HttpGet("{courseId}/modules")]
         public ActionResult<IEnumerable<ModuleDTO>> GetModulesForCourse(Guid courseId)

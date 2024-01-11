@@ -1,5 +1,4 @@
-﻿<h3>CourseList</h3>
-
+﻿
 @using System.Net.Http
 
 @using LMS.Shared.Dtos
@@ -9,9 +8,8 @@
 
 
 @page "/courselist"
-@* {ModuleId:guid} *@
 
-<h1>Courses</h1>
+<h3>Courses</h3>
 
 @if (courses == null)
 {
@@ -51,7 +49,6 @@ else
                     <td>@course.StartDate</td>
 
 
-                    @*  <td scope="row"><a href="@($"courseview/{course.Id}")" class="btn btn-outline-primary">View</a></td> *@
                     <td scope="row"><a href="@($"courseupdate/{course.Id}")" class="btn btn-outline-primary">Update</a></td>
                     <td scope="row"><a href="@($"coursedelete/{course.Id}")" class="btn btn-outline-primary">Delete</a></td>
 

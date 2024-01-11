@@ -131,7 +131,7 @@ namespace LMS.Server.Data
                         new Module
                         {
                             Id = Guid.NewGuid(),
-                            Name = "C#",
+                            Name = "Java",
                             Description = "Description for Java",
                             StartDate = DateTime.Now,
                             EndDate = DateTime.Now.AddDays(30),

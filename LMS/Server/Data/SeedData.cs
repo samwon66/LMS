@@ -131,7 +131,7 @@ namespace LMS.Server.Data
                         new Module
                         {
                             Id = Guid.NewGuid(),
-                            Name = "C#",
+                            Name = "Java",
                             Description = "Description for Java",
                             StartDate = DateTime.Now,
                             EndDate = DateTime.Now.AddDays(30),
@@ -229,6 +229,7 @@ namespace LMS.Server.Data
             await AddAccountAsync("test3@student.com", "Bengt", "Danielsson", "Student", "Pa55w.rd", c.Id, c);
             await AddAccountAsync("test4@student.com", "Peter", "Lagrelius", "Student", "Pa55w.rd", c.Id, c);
             await AddAccountAsync("test5@student.com", "Maria", "Lång", "Student", "Pa55w.rd", c.Id, c);
+            await AddAccountAsync("teacher1@teacher.com", "Roger", "Johansson", "Teacher", "P@55w.rd", c.Id, c);
         }
 
         private static async Task AddRolesAsync(string[] roleNames)

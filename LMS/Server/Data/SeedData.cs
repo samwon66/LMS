@@ -18,7 +18,7 @@ namespace LMS.Server.Data
 
         {
             context = _context;
-            if (context.Roles.Any()) return;
+            //if (context.Roles.Any()) return;
 
             roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
             userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
